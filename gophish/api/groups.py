@@ -1,20 +1,21 @@
-class API(object):
+from gophish.models import Group
+
+class API(APIEndpoint):
     def __init__(self, api, endpoint='/groups'):
-        self.api = api
-        self.endpoint = endpoint
+        super(API, self).__init__(api, endpoint=endpoint, cls=Group)
 
     def get(group_id=None):
         """ Gets one or more groups """
-        raise NotImplementedError
+        return super(API, self).get(resource_id=group_id)
 
     def post(group):
         """ Creates a new group """
-        raise NotImplementedError
+        return super(API, self).post(group)
 
     def put(group):
         """ Edits a group """
-        raise NotImplementedError
+        return super(API, self).put(group)
 
     def delete(group_id):
         """ Deletes a group by ID """
-        raise NotImplementedError
+        return super(API, self).put(group_id)

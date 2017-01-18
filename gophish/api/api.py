@@ -11,17 +11,19 @@ class APIEndpoint:
     Represents an API endpoint for Gophish, containing common patterns
     for CRUD operations.
     """
-    def __init__(self, api, endpoint=None):
+    def __init__(self, api, endpoint=None, cls=None):
         """ Creates an instance of the APIEndpoint class.
 
         Args:
             api - Gophish.client - The authenticated REST client
             endpoint - str - The URL path to the resource endpoint
+            cls - gophish.models.Model - The Class to use when parsing results
         """
         self.api = api
         self.endpoint = endpoint
+        self._cls = cls
 
-    def get(self, cls, resource_id=None):
+    def get(self, resource_id=None):
         """ Gets the details for one or more resources by ID
         
         Args:
@@ -42,15 +44,15 @@ class APIEndpoint:
             return Error.parse(response.json())
 
         if resource_id:
-            return cls.parse(response.json())
+            return self._cls.parse(response.json())
 
-        return [cls.parse(resource) for resource in response.json()]
+        return [self._cls.parse(resource) for resource in response.json()]
 
-    def post(self, cls, resource):
+    def post(self, resource):
         """ Creates a new instance of the resource.
 
         Args:
-            cls - gophish.models.Model - The resource class
+            resource - gophish.models.Model - The resource instance
 
         """
         response = self.api.execute("POST", self.endpoint, json=json.dumps(resource))
@@ -58,13 +60,12 @@ class APIEndpoint:
         if not response.ok:
             return Error.parse(response.json())
 
-        return cls.parse(response.json())
+        return self._cls.parse(response.json())
 
-    def put(self, cls, resource):
+    def put(self, resource):
         """ Edits an existing resource
 
         Args:
-            cls - gophish.models.Model - The resource class
             resource - gophish.models.Model - The resource instance
         """
         
@@ -78,13 +79,12 @@ class APIEndpoint:
         if not respose.ok:
             return Error.parse(response.json())
 
-        return cls.parse(response.json())
+        return self._cls.parse(response.json())
 
-    def delete(self, cls, resource_id):
+    def delete(self, resource_id):
         """ Deletes an existing resource
 
         Args:
-            cls - gophish.models.Model - The resource class
             resource_id - int - The resource ID to be deleted
         """
 
@@ -95,4 +95,4 @@ class APIEndpoint:
         if not response.ok:
             return Error.parse(response.json())
 
-        return cls.parse(response.json())
+        return self._cls.parse(response.json())

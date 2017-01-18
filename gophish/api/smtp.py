@@ -1,20 +1,26 @@
-class API(object):
+from gophish.api import APIEndpoint
+from gophish.models import SMTP
+
+class API(APIEndpoint):
     def __init__(self, api, endpoint='/smtp'):
-        self.api = api
-        self.endpoint = endpoint
+        super(API, self).__init__(api, endpoint=endpoint, cls=SMTP)
 
-    def get(smtp_id=None):
+    def get(self, smtp_id=None):
         """ Gets one or more SMTP sending profiles """
-        raise NotImplementedError
 
-    def post(smtp):
+        return super(API, self).get(resource_id=smtp_id)
+
+    def post(self, smtp):
         """ Creates a new SMTP sending profile """
-        raise NotImplementedError
 
-    def put(smtp):
+        return super(API, self).post(smtp)
+
+    def put(self, smtp):
         """ Edits an SMTP sending profile """
-        raise NotImplementedError
 
-    def delete(smtp_id):
+        return super(API, self).put(smtp)
+
+    def delete(self, smtp_id):
         """ Deletes an SMTP sending profile by ID """
-        raise NotImplementedError
+
+        return super(API, self).delete(smtp_id)

@@ -1,20 +1,26 @@
-class API(object):
+from gophish.models import Page
+from gophish.api import APIEndpoint
+
+class API(APIEndpoint):
     def __init__(self, api, endpoint='/pages'):
-        self.api = api
-        self.endpoint = endpoint
+        super(API, self).__init__(api, endpoint=endpoint, cls=Page)
 
-    def get(page_id=None):
+    def get(self, page_id=None):
         """ Gets one or more pages """
-        raise NotImplementedError
+        
+        return self.super(API, self).get(resource_id=page_id)
 
-    def post(page):
+    def post(self, page):
         """ Creates a new page """
-        raise NotImplementedError
 
-    def put(page):
+        return super(API, self).post(page)
+
+    def put(self, page):
         """ Edits a page """
-        raise NotImplementedError
 
-    def delete(page_id):
+        return super(API, self).put(put)
+
+    def delete(self, page_id):
         """ Deletes a page by ID """
-        raise NotImplementedError
+
+        return super(API, self).delete(page_id)
