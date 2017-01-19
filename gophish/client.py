@@ -1,15 +1,33 @@
 import requests
 
+from gophish.api import (
+    campaigns,
+    groups,
+    pages,
+    smtp,
+    templates)
+
 DEFAULT_URL = 'http://localhost:3333'
 
-class Gophish:
-    def __init__(self, api_key, host=DEFAULT_URL):
+class GophishClient(object):
+    """ A standard HTTP REST client used by Gophish """
+    def __init__(self, api_key, host=DEFAULT_URL, **kwargs):
         self.api_key = api_key
         self.host = host
+        self._kwargs = kwargs
     
-    def __execute(path, method, data=None):
+    def execute(self, method, path, data=None):
         """ Executes a request to a given endpoint, returning the result """
 
-        url = "{}/{}".format(this.host, path)
-        response = requests.request(method, url, json=data)
-        return response.json()
+        url = "{}{}".format(self.host, path)
+        response = requests.request(method, url, params={"api_key": self.api_key}, json=data, **self._kwargs)
+        return response
+
+class Gophish(object):
+    def __init__(self, api_key, host=DEFAULT_URL, client=GophishClient, **kwargs):
+        self.client = client(api_key, host=host, **kwargs)
+        self.campaigns = campaigns.API(self.client)
+        self.groups = groups.API(self.client)
+        self.pages = pages.API(self.client)
+        self.smtp = smtp.API(self.client)
+        self.templates = templates.API(self.client)

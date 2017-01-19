@@ -1,12 +1,14 @@
 import requests
 
+from gophish.models import Error
+
 '''
 api.py 
 
 Base API endpoint class that abstracts basic CRUD operations.
 '''
 
-class APIEndpoint:
+class APIEndpoint(object):
     """
     Represents an API endpoint for Gophish, containing common patterns
     for CRUD operations.

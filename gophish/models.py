@@ -1,5 +1,11 @@
 from datetime import datetime
+
 import json as _json
+import dateutil.parser
+
+def parse_date(datestr):
+    """ Parses an ISO 8601 formatted date from Gophish """
+    return dateutil.parser.parse(datestr)
 
 class Model(object):
     def __init__(self):
@@ -51,35 +57,30 @@ class Result(Model):
             'position': None, 'ip': None, 'latitude': None, 'longitude': None,
             'status': None}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in Result.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
     @classmethod
     def parse(cls, json):
-        raise NotImplementedError
+        result = cls()
+        for key, val in json.items():
+            if key in cls.__valid_properties:
+                setattr(result, key, val)
 
 
 class TimelineEntry(object):
-    __valid_properties = ['email', 'time', 'message', 'details']
-
-    def __init__(entry):
-        for key, default in TimelineEntry.__valid_properties.items():
-            setattr(self, key, kwargs.get(key, default))
+    __valid_properties = {'email': None, 'time': None, 'message': None, 'details': None}
 
     @classmethod
     def parse(cls, json):
         entry = cls()
         for key, val in json.items():
-            if key == 'details':
+            if key == 'details' and val != "":
                 details = _json.loads(val)
                 setattr(entry, key, details)
             elif key in cls.__valid_properties:
                 setattr(entry, key, val)
-
-    @classmethod
-    def parse(cls, json):
-        raise NotImplementedError
 
 
 class User(Model):
@@ -89,7 +90,7 @@ class User(Model):
             'id': None, 'first_name': None, 'last_name': None, 'email': None,
             'position': None}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in User.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
@@ -104,7 +105,7 @@ class Group(Model):
             'id': None, 'name': None, 'modified_date': datetime.now(),
             'targets': []}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in Group.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
@@ -117,7 +118,7 @@ class Group(Model):
                 setattr(group, key, users)
             elif key == 'modified_date':
                 setattr(group, key, parse_date(val))
-            elif key in Group.__valid_properties:
+            elif key in cls.__valid_properties:
                 setattr(group, key, val)
         return group
 
@@ -128,7 +129,7 @@ class SMTP(Model):
         'from_address': None, 'ignore_cert_errors' : False,
         'modified_date': datetime.now()}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in SMTP.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
@@ -138,7 +139,7 @@ class SMTP(Model):
         for key, val in json.items():
             if key == 'modified_date':
                 setattr(smtp, key, parse_date(val))
-            elif key in SMTP.__valid_properties:
+            elif key in cls.__valid_properties:
                 setattr(smtp, key, val)
         return smtp
 
@@ -148,7 +149,7 @@ class Template(Model):
         'id': None, 'name': None, 'text': None, 'html': None,
         'modified_date': datetime.now(), 'subject': None, 'attachments': []}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in Template.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
@@ -162,7 +163,7 @@ class Template(Model):
                 attachments = [
                         Attachment.parse(attachment) for attachment in val]
                 setattr(template, key, attachments)
-            elif key in Template.__valid_properties:
+            elif key in cls.__valid_properties:
                 setattr(template, key, val)
 
 
@@ -172,7 +173,7 @@ class Page(Model):
         'capture_credentials': False, 'capture_passwords': False,
         'redirect_url': None}
 
-    def __init__(**kwargs):
+    def __init__(self, **kwargs):
         for key, default in Page.__valid_properties.items():
             setattr(self, key, kwargs.get(key, default))
 
@@ -182,5 +183,22 @@ class Page(Model):
         for key, val in json.items():
             if key == 'modified_date':
                 setattr(page, key, parse_date(val))
-            elif key in Page.__valid_properties:
+            elif key in cls.__valid_properties:
                 setattr(page, key, val)
+
+class Attachment(Model):
+    __valid_properties = {}
+
+    @classmethod
+    def parse(cls, json):
+        return cls()
+
+class Error(Model):
+    __valid_properties = {'message', 'success', 'data'}
+
+    @classmethod
+    def parse(cls, json):
+        error = cls()
+        for key, val in json.items():
+            if key in cls.__valid_properties:
+                setattr(error, key, val)
