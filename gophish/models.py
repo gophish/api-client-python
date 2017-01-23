@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil.tz import tzlocal
 
 import json as _json
 import dateutil.parser
@@ -11,6 +12,25 @@ class Model(object):
     def __init__(self):
         self._valid_properties = {}
 
+    def as_dict(self):
+        """ Returns a dict representation of the resource """
+        result = {}
+        for key in self._valid_properties:
+            val = getattr(self, key)
+            if isinstance(val, datetime):
+                val = val.isoformat()
+            # Parse custom classes
+            elif val and not isinstance(val, (str, list, dict)):
+                val = val.as_dict()
+            # Parse lists of objects
+            elif isinstance(val, list):
+                val = [e.as_dict() for e in val]
+
+            # Add it if it's not None
+            if val:
+                result[key] = val 
+        return result
+
     @classmethod
     def parse(cls, json):
         """Parse a JSON object into a model instance."""
@@ -19,8 +39,8 @@ class Model(object):
 
 class Campaign(Model):
     _valid_properties = {
-        'id': None, 'name': None, 'created_date': datetime.now(),
-        'launch_date': datetime.now(), 'completed_date': None, 'template': None,
+        'id': None, 'name': None, 'created_date': datetime.now(tzlocal()),
+        'launch_date': datetime.now(tzlocal()), 'completed_date': None, 'template': None,
         'page': None, 'results': [], 'status': None, 'timeline': [],
         'smtp': None, 'url': None}
 
@@ -106,7 +126,7 @@ class User(Model):
 class Group(Model):
     """ Groups contain one or more users """
     _valid_properties = {
-            'id': None, 'name': None, 'modified_date': datetime.now(),
+            'id': None, 'name': None, 'modified_date': datetime.now(tzlocal()),
             'targets': []}
 
     def __init__(self, **kwargs):
@@ -131,7 +151,7 @@ class SMTP(Model):
     _valid_properties = {
         'id': None, 'interface_type': 'SMTP', 'name': None, 'host': None,
         'from_address': None, 'ignore_cert_errors' : False,
-        'modified_date': datetime.now()}
+        'modified_date': datetime.now(tzlocal())}
 
     def __init__(self, **kwargs):
         for key, default in SMTP._valid_properties.items():
@@ -151,7 +171,7 @@ class SMTP(Model):
 class Template(Model):
     _valid_properties = {
         'id': None, 'name': None, 'text': None, 'html': None,
-        'modified_date': datetime.now(), 'subject': None, 'attachments': []}
+        'modified_date': datetime.now(tzlocal()), 'subject': None, 'attachments': []}
 
     def __init__(self, **kwargs):
         for key, default in Template._valid_properties.items():
@@ -173,7 +193,7 @@ class Template(Model):
 
 class Page(Model):
     _valid_properties = {
-        'id': None, 'name': None, 'html': None, 'modified_date': datetime.now(),
+        'id': None, 'name': None, 'html': None, 'modified_date': datetime.now(tzlocal()),
         'capture_credentials': False, 'capture_passwords': False,
         'redirect_url': None}
 

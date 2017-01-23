@@ -57,7 +57,7 @@ class APIEndpoint(object):
             resource - gophish.models.Model - The resource instance
 
         """
-        response = self.api.execute("POST", self.endpoint, json=json.dumps(resource))
+        response = self.api.execute("POST", self.endpoint, json=(resource.as_dict()))
         
         if not response.ok:
             return Error.parse(response.json())

@@ -2,7 +2,7 @@ from gophish.models import Page
 from gophish.api import APIEndpoint
 
 class API(APIEndpoint):
-    def __init__(self, api, endpoint='/api/pages'):
+    def __init__(self, api, endpoint='/api/pages/'):
         super(API, self).__init__(api, endpoint=endpoint, cls=Page)
 
     def get(self, page_id=None):
