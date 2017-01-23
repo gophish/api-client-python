@@ -87,6 +87,7 @@ class Result(Model):
         for key, val in json.items():
             if key in cls._valid_properties:
                 setattr(result, key, val)
+        return result
 
 
 class TimelineEntry(object):
@@ -101,6 +102,7 @@ class TimelineEntry(object):
                 setattr(entry, key, details)
             elif key in cls._valid_properties:
                 setattr(entry, key, val)
+        return entry
 
 
 class User(Model):
