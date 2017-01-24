@@ -1,6 +1,6 @@
 # Gophish Python API Client
 
-Gophish was built from the group up to be API-first. This means that we build out the API endpoints for all of our features, and the UI is simply a wrapper around these endpoints.
+Gophish was built from the ground-up to be API-first. This means that we build out the API endpoints for all of our features, and the UI is simply a wrapper around these endpoints.
 
 To interface with Gophish using Python, we've created a `gophish` client library.
 
