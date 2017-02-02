@@ -42,7 +42,7 @@ class Campaign(Model):
         'id': None, 'name': None, 'created_date': datetime.now(tzlocal()),
         'launch_date': datetime.now(tzlocal()), 'completed_date': None, 'template': None,
         'page': None, 'results': [], 'status': None, 'timeline': [],
-        'smtp': None, 'url': None}
+        'smtp': None, 'url': None, 'groups': [], 'profile': None}
 
     def __init__(self, **kwargs):
         """ Creates a new campaign instance """
@@ -58,8 +58,9 @@ class Campaign(Model):
                 results = [Result.parse(result) for result in val]
                 setattr(campaign, key, results)
             elif key == 'timeline':
-                timeline = [TimelineEntry.parse(entry) for entry in val]
-                setattr(campaign, key, timeline)
+                if val is not None:
+                    timeline = [TimelineEntry.parse(entry) for entry in val]
+                    setattr(campaign, key, timeline)
             elif key == 'template':
                 setattr(campaign, key, Template.parse(val))
             elif key == 'page':

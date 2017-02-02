@@ -19,4 +19,4 @@ class API(APIEndpoint):
 
     def delete(self, group_id):
         """ Deletes a group by ID """
-        return super(API, self).put(group_id)
+        return super(API, self).delete(group_id)
