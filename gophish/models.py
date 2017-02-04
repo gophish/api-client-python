@@ -192,6 +192,7 @@ class Template(Model):
                 setattr(template, key, attachments)
             elif key in cls._valid_properties:
                 setattr(template, key, val)
+        return template
 
 
 class Page(Model):
@@ -212,13 +213,18 @@ class Page(Model):
                 setattr(page, key, parse_date(val))
             elif key in cls._valid_properties:
                 setattr(page, key, val)
+        return page
 
 class Attachment(Model):
-    _valid_properties = {}
+    _valid_properties = {'content': None, 'type': None, 'name': None}
 
     @classmethod
     def parse(cls, json):
-        return cls()
+        attachment = cls()
+        for key, val in json.items():
+            if key in cls._valid_properties:
+                setattr(attachment, key, val)
+        return attachment
 
 class Error(Model):
     _valid_properties = {'message', 'success', 'data'}
@@ -229,3 +235,4 @@ class Error(Model):
         for key, val in json.items():
             if key in cls._valid_properties:
                 setattr(error, key, val)
+        return error
