@@ -8,7 +8,7 @@ class API(APIEndpoint):
     def get(self, page_id=None):
         """ Gets one or more pages """
         
-        return self.super(API, self).get(resource_id=page_id)
+        return super(API, self).get(resource_id=page_id)
 
     def post(self, page):
         """ Creates a new page """
