@@ -30,6 +30,12 @@ class API(APIEndpoint):
 
         return super(API, self).delete(campaign_id)
 
+    def complete(self, campaign_id):
+        """ Complete an existing campaign (Stop processing events) """
+
+        return super(API, self).get(resource_id=campaign_id, 
+                                    resource_action='complete')
+
     def summary(campaign_id=None):
         """ Returns the summary of one or more campaigns. """
         raise NotImplementedError
