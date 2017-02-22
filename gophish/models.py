@@ -20,7 +20,7 @@ class Model(object):
             if isinstance(val, datetime):
                 val = val.isoformat()
             # Parse custom classes
-            elif val and not isinstance(val, (str, list, dict)):
+            elif val and not isinstance(val, (int, float, str, list, dict)):
                 val = val.as_dict()
             # Parse lists of objects
             elif isinstance(val, list):
@@ -91,7 +91,7 @@ class Result(Model):
         return result
 
 
-class TimelineEntry(object):
+class TimelineEntry(Model):
     _valid_properties = {'email': None, 'time': None, 'message': None, 'details': None}
 
     @classmethod
