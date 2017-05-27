@@ -3,13 +3,13 @@ from setuptools import setup
 setup(
   name = 'gophish',
   packages = ['gophish', 'gophish.api'],
-  version = '0.1.2',
+  version = '0.1.3',
   description = 'Python API Client for Gophish',
   author = 'Jordan Wright',
   author_email = 'python@getgophish.com',
   url = 'https://github.com/gophish/api-client-python',
   license='MIT',
-  download_url = 'https://github.com/gophish/api-client-python/tarball/0.1.1',
+  download_url = 'https://github.com/gophish/api-client-python/tarball/0.1.3',
   keywords = ['gophish'],
   classifiers = [
       'Development Status :: 3 - Alpha',
