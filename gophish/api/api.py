@@ -94,7 +94,7 @@ class APIEndpoint(object):
 
         response = self.api.execute("PUT", endpoint, json=resource.as_json())
 
-        if not respose.ok:
+        if not response.ok:
             return Error.parse(response.json())
 
         return self._cls.parse(response.json())
