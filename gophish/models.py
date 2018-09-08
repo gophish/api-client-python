@@ -22,7 +22,7 @@ class Model(object):
             if isinstance(val, datetime):
                 val = val.isoformat()
             # Parse custom classes
-            elif val and not isinstance(val, (int, float, str, list, dict, unicode)):
+            elif val and not isinstance(val, (int, float, str, list, dict)):
                 val = val.as_dict()
             # Parse lists of objects
             elif isinstance(val, list):
