@@ -1,6 +1,5 @@
-import json
-
-from gophish.models import Campaign, CampaignSummary, CampaignSummaries, CampaignResults, Error
+from gophish.models import (Campaign, CampaignSummary, CampaignSummaries,
+                            CampaignResults)
 from gophish.api import APIEndpoint
 
 

@@ -1,13 +1,14 @@
 from gophish.models import Page
 from gophish.api import APIEndpoint
 
+
 class API(APIEndpoint):
     def __init__(self, api, endpoint='/api/pages/'):
         super(API, self).__init__(api, endpoint=endpoint, cls=Page)
 
     def get(self, page_id=None):
         """ Gets one or more pages """
-        
+
         return super(API, self).get(resource_id=page_id)
 
     def post(self, page):

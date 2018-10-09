@@ -1,8 +1,6 @@
-import requests
-
 from gophish.models import Error
 '''
-api.py 
+api.py
 
 Base API endpoint class that abstracts basic CRUD operations.
 '''
@@ -32,14 +30,16 @@ class APIEndpoint(object):
             resource_cls=None,
             single_resource=False):
         """ Gets the details for one or more resources by ID
-        
+
         Args:
             cls - gophish.models.Model - The resource class
             resource_id - str - The endpoint (URL path) for the resource
             resource_action - str - An action to perform on the resource
-            resource_cls - cls - A class to use for parsing, if different than the base resource
-            single_resource - bool - An override to tell Gophish that even 
-                though we aren't requesting a single resource, we expect a single response object
+            resource_cls - cls - A class to use for parsing, if different than
+                the base resource
+            single_resource - bool - An override to tell Gophish that even
+                though we aren't requesting a single resource, we expect a
+                single response object
 
         Returns:
             One or more instances of cls parsed from the returned JSON

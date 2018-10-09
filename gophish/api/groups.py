@@ -1,6 +1,7 @@
 from gophish.models import Group
 from gophish.api import APIEndpoint
 
+
 class API(APIEndpoint):
     def __init__(self, api, endpoint='/api/groups/'):
         super(API, self).__init__(api, endpoint=endpoint, cls=Group)
