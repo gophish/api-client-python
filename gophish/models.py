@@ -340,7 +340,7 @@ class Template(Model):
         for key, val in json.items():
             if key == 'modified_date':
                 setattr(template, key, parse_date(val))
-            elif key == 'attachments':
+            elif key == 'attachments' and val:
                 attachments = [
                     Attachment.parse(attachment) for attachment in val
                 ]
