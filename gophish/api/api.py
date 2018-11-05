@@ -58,7 +58,7 @@ class APIEndpoint(object):
 
         response = self.api.execute("GET", endpoint)
         if not response.ok:
-            return Error.parse(response.json())
+            raise Error.parse(response.json())
 
         if resource_id or single_resource:
             return resource_cls.parse(response.json())
@@ -76,7 +76,7 @@ class APIEndpoint(object):
             "POST", self.endpoint, json=(resource.as_dict()))
 
         if not response.ok:
-            return Error.parse(response.json())
+            raise Error.parse(response.json())
 
         return self._cls.parse(response.json())
 
@@ -95,7 +95,7 @@ class APIEndpoint(object):
         response = self.api.execute("PUT", endpoint, json=resource.as_json())
 
         if not response.ok:
-            return Error.parse(response.json())
+            raise Error.parse(response.json())
 
         return self._cls.parse(response.json())
 
@@ -111,6 +111,6 @@ class APIEndpoint(object):
         response = self.api.execute("DELETE", endpoint)
 
         if not response.ok:
-            return Error.parse(response.json())
+            raise Error.parse(response.json())
 
         return self._cls.parse(response.json())
