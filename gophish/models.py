@@ -17,7 +17,6 @@ class Model(object):
     def as_dict(self):
         """ Returns a dict representation of the resource """
         result = {}
-        print(self._valid_properties)
         for key in self._valid_properties:
             val = getattr(self, key)
             if isinstance(val, datetime):
