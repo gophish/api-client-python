@@ -49,6 +49,7 @@ class Campaign(Model):
         'name': None,
         'created_date': datetime.now(tzlocal()),
         'launch_date': datetime.now(tzlocal()),
+        'send_by_date': None,
         'completed_date': None,
         'template': None,
         'page': None,
@@ -58,7 +59,6 @@ class Campaign(Model):
         'smtp': None,
         'url': None,
         'groups': [],
-        'profile': None
     }
 
     def __init__(self, **kwargs):
@@ -118,6 +118,7 @@ class CampaignSummary(Model):
         'name': None,
         'status': None,
         'created_date': None,
+        'send_by_date': None,
         'launch_date': None,
         'completed_date': None,
         'stats': None
