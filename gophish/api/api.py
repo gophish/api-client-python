@@ -24,6 +24,19 @@ class APIEndpoint(object):
         self.endpoint = endpoint
         self._cls = cls
 
+    def _build_url(self, *parts):
+        """Builds a path to an API resource by joining the individual parts
+        with a slash (/).
+
+        This is used instead of urljoin since we're given relative URL parts
+        which need to be chained together.
+
+        Returns:
+            str -- The parts joined with a slash
+        """
+
+        return '/'.join(str(part).rstrip('/') for part in parts)
+
     def get(self,
             resource_id=None,
             resource_action=None,
@@ -51,10 +64,10 @@ class APIEndpoint(object):
             resource_cls = self._cls
 
         if resource_id:
-            endpoint = '{}/{}'.format(endpoint, resource_id)
+            endpoint = self._build_url(endpoint, resource_id)
 
         if resource_action:
-            endpoint = '{}/{}'.format(endpoint, resource_action)
+            endpoint = self._build_url(endpoint, resource_action)
 
         response = self.api.execute("GET", endpoint)
         if not response.ok:
@@ -90,9 +103,9 @@ class APIEndpoint(object):
         endpoint = self.endpoint
 
         if resource.id:
-            endpoint = '{}/{}'.format(endpoint, resource.id)
+            endpoint = self._build_url(endpoint, resource.id)
 
-        response = self.api.execute("PUT", endpoint, json=resource.as_json())
+        response = self.api.execute("PUT", endpoint, json=resource.as_dict())
 
         if not response.ok:
             raise Error.parse(response.json())
