@@ -19,7 +19,7 @@ class API(APIEndpoint):
     def put(self, page):
         """ Edits a page """
 
-        return super(API, self).put(put)
+        return super(API, self).put(page)
 
     def delete(self, page_id):
         """ Deletes a page by ID """
