@@ -19,7 +19,10 @@ class GophishClient(object):
         url = "{}{}".format(self.host, path)
         kwargs.update(self._client_kwargs)
         response = requests.request(
-            method, url, params={"api_key": self.api_key}, **kwargs)
+            method,
+            url,
+            headers={"Authorization": "Bearer {}".format(self.api_key)},
+            **kwargs)
         return response
 
 

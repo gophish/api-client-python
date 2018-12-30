@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='gophish',
     packages=['gophish', 'gophish.api'],
-    version='0.2.4',
+    version='0.2.5',
     description='Python API Client for Gophish',
     author='Jordan Wright',
     author_email='python@getgophish.com',
