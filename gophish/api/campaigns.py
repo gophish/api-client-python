@@ -4,7 +4,7 @@ from gophish.api import APIEndpoint
 
 
 class API(APIEndpoint):
-    def __init__(self, api, endpoint='/api/campaigns/'):
+    def __init__(self, api, endpoint='api/campaigns/'):
         """ Creates a new instance of the campaigns API """
 
         super(API, self).__init__(api, endpoint=endpoint, cls=Campaign)
