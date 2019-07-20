@@ -3,7 +3,7 @@ from gophish.api import APIEndpoint
 
 
 class API(APIEndpoint):
-    def __init__(self, api, endpoint='/api/smtp/'):
+    def __init__(self, api, endpoint='api/smtp/'):
         super(API, self).__init__(api, endpoint=endpoint, cls=SMTP)
 
     def get(self, smtp_id=None):

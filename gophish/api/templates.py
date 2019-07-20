@@ -3,7 +3,7 @@ from gophish.api import APIEndpoint
 
 
 class API(APIEndpoint):
-    def __init__(self, api, endpoint='/api/templates/'):
+    def __init__(self, api, endpoint='api/templates/'):
         super(API, self).__init__(api, endpoint=endpoint, cls=Template)
 
     def get(self, template_id=None):
