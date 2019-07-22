@@ -55,7 +55,7 @@ class Campaign(Model):
     _valid_properties = {
         'id': None,
         'name': None,
-        'descriptions': None,
+        'description': None,
         'created_date': datetime.now(tzlocal()),
         'launch_date': datetime.now(tzlocal()),
         'send_by_date': None,
