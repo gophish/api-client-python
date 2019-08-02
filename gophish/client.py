@@ -10,7 +10,10 @@ class GophishClient(object):
 
     def __init__(self, api_key, host=DEFAULT_URL, **kwargs):
         self.api_key = api_key
-        self.host = host
+        if host.endswith('/'):
+            self.host = host
+        else:
+            self.host = host + '/'
         self._client_kwargs = kwargs
 
     def execute(self, method, path, **kwargs):
