@@ -404,6 +404,28 @@ class Attachment(Model):
         return attachment
 
 
+class Webhook(Model):
+    _valid_properties = {
+        'id': None,
+        'name': None,
+        'url': None,
+        'secret': None,
+        'is_active': None
+    }
+
+    def __init__(self, **kwargs):
+        for key, default in Webhook._valid_properties.items():
+            setattr(self, key, kwargs.get(key, default))
+
+    @classmethod
+    def parse(cls, json):
+        webhook = cls()
+        for key, val in json.items():
+            if key in cls._valid_properties:
+                setattr(webhook, key, val)
+        return webhook
+
+
 class Error(Exception, Model):
     _valid_properties = {'message': None, 'success': None, 'data': None}
 

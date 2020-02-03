@@ -11,7 +11,6 @@ class APIEndpoint(object):
     Represents an API endpoint for Gophish, containing common patterns
     for CRUD operations.
     """
-
     def __init__(self, api, endpoint=None, cls=None):
         """ Creates an instance of the APIEndpoint class.
 
@@ -37,6 +36,33 @@ class APIEndpoint(object):
 
         return '/'.join(str(part).rstrip('/') for part in parts)
 
+    def request(self,
+                method,
+                resource_id=None,
+                resource_action=None,
+                resource_cls=None,
+                single_resource=False):
+
+        endpoint = self.endpoint
+
+        if not resource_cls:
+            resource_cls = self._cls
+
+        if resource_id:
+            endpoint = self._build_url(endpoint, resource_id)
+
+        if resource_action:
+            endpoint = self._build_url(endpoint, resource_action)
+
+        response = self.api.execute(method, endpoint)
+        if not response.ok:
+            raise Error.parse(response.json())
+
+        if resource_id or single_resource:
+            return resource_cls.parse(response.json())
+
+        return [resource_cls.parse(resource) for resource in response.json()]
+
     def get(self,
             resource_id=None,
             resource_action=None,
@@ -58,25 +84,11 @@ class APIEndpoint(object):
             One or more instances of cls parsed from the returned JSON
         """
 
-        endpoint = self.endpoint
-
-        if not resource_cls:
-            resource_cls = self._cls
-
-        if resource_id:
-            endpoint = self._build_url(endpoint, resource_id)
-
-        if resource_action:
-            endpoint = self._build_url(endpoint, resource_action)
-
-        response = self.api.execute("GET", endpoint)
-        if not response.ok:
-            raise Error.parse(response.json())
-
-        if resource_id or single_resource:
-            return resource_cls.parse(response.json())
-
-        return [resource_cls.parse(resource) for resource in response.json()]
+        return self.request("GET",
+                            resource_id=resource_id,
+                            resource_action=resource_action,
+                            resource_cls=resource_cls,
+                            single_resource=single_resource)
 
     def post(self, resource):
         """ Creates a new instance of the resource.
@@ -85,8 +97,9 @@ class APIEndpoint(object):
             resource - gophish.models.Model - The resource instance
 
         """
-        response = self.api.execute(
-            "POST", self.endpoint, json=(resource.as_dict()))
+        response = self.api.execute("POST",
+                                    self.endpoint,
+                                    json=(resource.as_dict()))
 
         if not response.ok:
             raise Error.parse(response.json())
