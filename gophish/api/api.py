@@ -38,6 +38,7 @@ class APIEndpoint(object):
 
     def request(self,
                 method,
+                body=None,
                 resource_id=None,
                 resource_action=None,
                 resource_cls=None,
@@ -54,7 +55,7 @@ class APIEndpoint(object):
         if resource_action:
             endpoint = self._build_url(endpoint, resource_action)
 
-        response = self.api.execute(method, endpoint)
+        response = self.api.execute(method, endpoint, json=body)
         if not response.ok:
             raise Error.parse(response.json())
 

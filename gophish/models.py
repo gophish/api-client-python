@@ -426,6 +426,53 @@ class Webhook(Model):
         return webhook
 
 
+class IMAP(Model):
+    _valid_properties = {
+        'enabled': None,
+        'host': None,
+        'port': None,
+        'username': None,
+        'password': None,
+        'tls': None,
+        'folder': None,
+        'restrict_domain': None,
+        'delete_reported_campaign_email': None,
+        'last_login': None,
+        'modified_date': None,
+        'imap_freq': None
+    }
+
+    def __init__(self, **kwargs):
+        for key, default in IMAP._valid_properties.items():
+            setattr(self, key, kwargs.get(key, default))
+
+    @classmethod
+    def parse(cls, json):
+        imap = cls()
+        for key, val in json.items():
+            if key in cls._valid_properties:
+                setattr(imap, key, val)
+        return imap
+
+
+class Success(Exception, Model):
+    _valid_properties = {'message': None, 'success': None, 'data': None}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __str__(self):
+        return self.message
+
+    @classmethod
+    def parse(cls, json):
+        success = cls()
+        for key, val in json.items():
+            if key in cls._valid_properties:
+                setattr(success, key, val)
+        return success
+
+
 class Error(Exception, Model):
     _valid_properties = {'message': None, 'success': None, 'data': None}
 
