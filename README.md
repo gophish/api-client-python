@@ -29,4 +29,4 @@ Now you're ready to start using the API!
 
 ## Full Documentation
 
-You can find the full Python client documentation [here.](https://gophish.gitbooks.io/python-api-client/content/)
+You can find the full Python client documentation [here.](https://docs.getgophish.com/python-api-client/)
