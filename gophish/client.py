@@ -3,7 +3,7 @@ import requests
 from gophish.api import (campaigns, groups, imap, pages, smtp, templates,
                          webhooks)
 
-DEFAULT_URL = 'http://localhost:3333'
+DEFAULT_URL = 'https://localhost:3333'
 
 
 class GophishClient(object):
