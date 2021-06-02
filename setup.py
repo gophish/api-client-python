@@ -31,6 +31,6 @@ setup(
         "python-dateutil==2.8.1",
         "requests==2.24.0",
         "six==1.15.0",
-        "urllib3==1.25.10"
+        "urllib3==1.26.5"
     ],
 )
