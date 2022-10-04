@@ -395,6 +395,10 @@ class Page(Model):
 class Attachment(Model):
     _valid_properties = {'content': None, 'type': None, 'name': None}
 
+     def __init__(self, **kwargs):
+        for key, default in Attachment._valid_properties.items():
+            setattr(self, key, kwargs.get(key, default))
+
     @classmethod
     def parse(cls, json):
         attachment = cls()
