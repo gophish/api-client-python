@@ -156,6 +156,7 @@ class Stat(Model):
         'opened': None,
         'clicked': None,
         'submitted_data': None,
+        'email_reported': None,
         'error': None
     }
 
