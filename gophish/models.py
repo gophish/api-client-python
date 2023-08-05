@@ -55,6 +55,7 @@ class Campaign(Model):
     _valid_properties = {
         'id': None,
         'name': None,
+        'description': None,
         'created_date': datetime.now(tzlocal()),
         'launch_date': datetime.now(tzlocal()),
         'send_by_date': None,
@@ -340,6 +341,7 @@ class Template(Model):
     _valid_properties = {
         'id': None,
         'name': None,
+        'description': None,
         'text': None,
         'html': None,
         'modified_date': datetime.now(tzlocal()),
@@ -371,6 +373,7 @@ class Page(Model):
     _valid_properties = {
         'id': None,
         'name': None,
+        'description': None,
         'html': None,
         'modified_date': datetime.now(tzlocal()),
         'capture_credentials': False,
