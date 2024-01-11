@@ -340,6 +340,7 @@ class Template(Model):
     _valid_properties = {
         'id': None,
         'name': None,
+        'envelope_sender': None,
         'text': None,
         'html': None,
         'modified_date': datetime.now(tzlocal()),
